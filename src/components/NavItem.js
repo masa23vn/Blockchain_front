@@ -14,11 +14,14 @@ const NavItem = ({
 }) => {
   const location = useLocation();
 
-  const active = href ? !!matchPath({
+  let active = href ? !!matchPath({
     path: href,
     end: false
   }, location.pathname) : false;
 
+  if (href === '/' && location.pathname !== '/') {
+    active = false;
+  }
   return (
     <ListItem
       disableGutters

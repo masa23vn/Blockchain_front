@@ -8,7 +8,7 @@ import {
 import { indigo } from '@material-ui/core/colors';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 
-const TotalProfit = (props) => (
+const TotalTransaction = (props) => (
   <Card {...props}>
     <CardContent>
       <Grid
@@ -22,13 +22,13 @@ const TotalProfit = (props) => (
             gutterBottom
             variant="h6"
           >
-            TOTAL PROFIT
+            TOTAL Transaction
           </Typography>
           <Typography
             color="textPrimary"
             variant="h3"
           >
-            $23,200
+            {props.amount ? props.amount + " Transactions" : ''}
           </Typography>
         </Grid>
         <Grid item>
@@ -47,4 +47,4 @@ const TotalProfit = (props) => (
   </Card>
 );
 
-export default TotalProfit;
+export default TotalTransaction;
