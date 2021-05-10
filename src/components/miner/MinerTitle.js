@@ -15,7 +15,6 @@ const MinerTitle = (props) => {
       <Card>
         <CardHeader
           title="For users who have your own server"
-          subheader="Enter your address to connect. For example: http://abc.com"
         />
         <Divider />
       </Card>

@@ -24,7 +24,6 @@ const WalletsTitle = (props) => {
       <Card>
         <CardHeader
           title="Using our server to create new transaction"
-          subheader="Your private key is only saved local and will be deleted when you close this tab or clear caches"
         />
         <Divider />
       </Card>

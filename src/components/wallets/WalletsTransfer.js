@@ -87,11 +87,11 @@ const WalletsTransfer = (props) => {
               // send transaction to server
               axios.post(`${LINK.API}/sendTransactionGuess`, { transaction: tx })
                 .then(function (res) {
+                  handleOpen("Created transaction successfully. Now wait for someone to mine it", "success");
                 })
                 .catch(function (err) {
                   handleOpen(err.message, "error");
                 })
-              handleOpen("Created transaction successfully", "success");
             } catch (err) {
               handleOpen(err.message, "error");
             }
@@ -138,7 +138,7 @@ const WalletsTransfer = (props) => {
         <Card>
           <CardHeader
             title="Create new transaction"
-            subheader="Send your coin to another address"
+            subheader="Your private key will be only on your browser and will be deleted when you close this tab or clear caches"
           />
           <Divider />
           <CardContent>
