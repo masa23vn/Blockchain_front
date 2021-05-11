@@ -25,8 +25,9 @@ import { Search as SearchIcon } from 'react-feather';
 
 const rowHeight = 73;
 
-const WalletsTransactions = (props) => {
+const LatestTransactions = (props) => {
   const [transactions, setTransactions] = useState([]);
+  const [hasData, setHasData] = useState(false);
 
   // search
   const [filterList, setFilterList] = useState(transactions);
@@ -53,6 +54,7 @@ const WalletsTransactions = (props) => {
   useEffect(() => {
     if (props.data) {
       props.data.reverse()
+      setHasData(true);
     }
     setTransactions(props.data || [])
   }, [props.data]);
@@ -93,7 +95,7 @@ const WalletsTransactions = (props) => {
     <Card {...props}>
       <CardHeader title={
         <Box style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography><b>Latest Transactions ({rows?.length})</b></Typography>
+          <Typography><b>Wallet Transaction - Need login to use ({rows?.length})</b></Typography>
           <TextField style={{ minWidth: '300px' }}
             InputProps={{
               startAdornment: (
@@ -116,77 +118,81 @@ const WalletsTransactions = (props) => {
         </Box>
       } />
       <Divider />
-      <PerfectScrollbar>
-        <Box style={{ width: '100%' }}>
-          <Table >
-            <TableHead>
-              <TableRow>
-                <TableCell >
-                  <Typography >Transaction Id</Typography>
-                </TableCell>
-                <TableCell style={style2}>
-                  Address
-              </TableCell>
-                <TableCell align="right" style={style3}>
-                  Status
-              </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {(rows || []).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((tx, index) => {
-                return (
-                  <TableRow hover key={tx.id}>
-                    <TableCell>
-                      <div style={style1}>
-                        <Link to={`/transaction/${tx.id}`}>{tx.id}</Link>
-                      </div>
-                    </TableCell>
+      {hasData &&
+        <>
+          <PerfectScrollbar>
+            <Box style={{ width: '100%' }}>
+              <Table >
+                <TableHead>
+                  <TableRow>
                     <TableCell >
-                      <div style={style2}>
-                        From:&nbsp;
-                        {tx?.sender}</div>
-                      <div style={style2}>
-                        To:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        {tx?.receiver}
-                      </div>
+                      <Typography >Transaction Id</Typography>
                     </TableCell>
+                    <TableCell style={style2}>
+                      Address
+              </TableCell>
                     <TableCell align="right" style={style3}>
-                      <Chip
-                        color="primary"
-                        label={"success"}
-                        size="small"
-                      />
-                    </TableCell>
+                      Status
+              </TableCell>
                   </TableRow>
-                )
-              })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: rowHeight * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </Box>
-      </PerfectScrollbar>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          p: 2
-        }}
-      >
-        <TablePagination
-          rowsPerPageOptions={[5]}
-          count={rows ? rows.length : 0}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          component='div'
-          onPageChange={handleChangePage}
-        />
-      </Box>
+                </TableHead>
+                <TableBody>
+                  {(rows || []).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((tx, index) => {
+                    return (
+                      <TableRow hover key={tx.id}>
+                        <TableCell>
+                          <div style={style1}>
+                            <Link to={`/transaction/${tx.id}`}>{tx.id}</Link>
+                          </div>
+                        </TableCell>
+                        <TableCell >
+                          <div style={style2}>
+                            From:&nbsp;
+                        {tx?.sender}</div>
+                          <div style={style2}>
+                            To:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {tx?.receiver}
+                          </div>
+                        </TableCell>
+                        <TableCell align="right" style={style3}>
+                          <Chip
+                            color="primary"
+                            label={"success"}
+                            size="small"
+                          />
+                        </TableCell>
+                      </TableRow>
+                    )
+                  })}
+                  {emptyRows > 0 && (
+                    <TableRow style={{ height: rowHeight * emptyRows }}>
+                      <TableCell colSpan={6} />
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </Box>
+          </PerfectScrollbar>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              p: 2
+            }}
+          >
+            <TablePagination
+              rowsPerPageOptions={[5]}
+              count={rows ? rows.length : 0}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              component='div'
+              onPageChange={handleChangePage}
+            />
+          </Box>
+        </>
+      }
     </Card>
   )
 };
 
-export default WalletsTransactions;
+export default LatestTransactions;

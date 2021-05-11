@@ -15,7 +15,7 @@ import { LINK } from '../../constant/constant'
 import axios from 'axios';
 
 const WalletsLogin = (props) => {
-  const { encryphted, password, setValues } = props
+  const { encryphted, password, setValues, handleGetTransaction, handleOpen } = props
   const [errors, setErrors] = useState({
     encryphted: '',
     password: ''
@@ -74,34 +74,64 @@ const WalletsLogin = (props) => {
     }
   }
 
-  // snack bar
-  const [open, setOpen] = useState(false);
-  const [snackMess, setSnackMess] = useState('');
-  const [snackType, setSnackType] = useState('error');
-  const handleOpen = (snackMess, snackType) => {
-    setSnackMess(snackMess);
-    setSnackType(snackType);
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleGetBalance = async () => {
+    if (encryphted === '') {
+      setErrors({
+        ...errors,
+        encryphted: "This field can't be blank."
+      })
+      return
+    }
+    if (password === '') {
+      setErrors({
+        ...errors,
+        password: "This field can't be blank."
+      })
+      return
+    }
+    try {
+      const privateKey = decryptPrivateKey(encryphted, password);
+      const publicKey = getPublicKey(privateKey)
+      axios.post(`${LINK.API}/balanceGuess`, { address: publicKey })
+        .then(function (res) {
+          handleOpen("Your balance: " + res?.data?.balance, "success");
+        })
+        .catch(function (err) {
+          if (err?.response) {
+            handleOpen(err?.response?.data, "error");
+
+          }
+          else {
+            handleOpen(err.message, "error");
+
+          }
+        })
+    } catch (error) {
+      handleOpen(error.message, 'error')
+    }
+  }
+
+  const handleTransaction = () => {
+    if (encryphted === '') {
+      setErrors({
+        ...errors,
+        encryphted: "This field can't be blank."
+      })
+      return
+    }
+    if (password === '') {
+      setErrors({
+        ...errors,
+        password: "This field can't be blank."
+      })
+      return
+    }
+
+    handleGetTransaction();
+  }
 
   return (
     <>
-      <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        open={open}
-        autoHideDuration={6000}
-        onClose={handleClose}
-        key={'topcenter'}
-      >
-        <Alert onClose={handleClose} severity={snackType}>
-          {snackMess}
-        </Alert>
-      </Snackbar>
-
-
       <form>
         <Card>
           <CardHeader
@@ -144,6 +174,22 @@ const WalletsLogin = (props) => {
               onClick={() => handleGetPublicKey()}
             >
               Get Public Key
+          </Button>
+            <Button
+              style={{ marginLeft: '10px' }}
+              color="primary"
+              variant="contained"
+              onClick={() => handleGetBalance()}
+            >
+              Get Balance
+          </Button>
+            <Button
+              style={{ marginLeft: '10px' }}
+              color="primary"
+              variant="contained"
+              onClick={() => handleTransaction()}
+            >
+              Get Transaction
           </Button>
           </Box>
         </Card>

@@ -15,7 +15,7 @@ import { LINK } from '../../constant/constant'
 import axios from 'axios';
 
 const WalletsTransfer = (props) => {
-  const { encryphted, password } = props
+  const { encryphted, password, handleOpen } = props
   const [values, setValues] = useState({
     public: '',
     amount: ''
@@ -103,40 +103,13 @@ const WalletsTransfer = (props) => {
       })
   }
 
-
-  // snack bar
-  const [open, setOpen] = useState(false);
-  const [snackMess, setSnackMess] = useState('');
-  const [snackType, setSnackType] = useState('error');
-  const handleOpen = (snackMess, snackType) => {
-    setSnackMess(snackMess);
-    setSnackType(snackType);
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   return (
     <>
-      <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        open={open}
-        autoHideDuration={6000}
-        onClose={handleClose}
-        key={'topcenter'}
-      >
-        <Alert onClose={handleClose} severity={snackType}>
-          {snackMess}
-        </Alert>
-      </Snackbar>
-
       <form>
         <Card>
           <CardHeader
             title="Create new transaction"
-            subheader="Send coin to another user through their public key"
+            subheader="Send coin to another user through their public key. NEED TO LOGIN TO USE"
           />
           <Divider />
           <CardContent>

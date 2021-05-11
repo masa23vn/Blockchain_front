@@ -10,9 +10,10 @@ import {
   Snackbar,
   Alert
 } from '@material-ui/core';
-import { encryptPrivateKey  } from '../../helper/sign';
+import { encryptPrivateKey } from '../../helper/sign';
 
 const WalletsCreate = (props) => {
+  const { handleOpen } = props
   const [values, setValues] = useState({
     password: '',
   });
@@ -34,20 +35,6 @@ const WalletsCreate = (props) => {
     });
   };
 
-  // snack bar
-  const [open, setOpen] = useState(false);
-  const [snackMess, setSnackMess] = useState('');
-  const [snackType, setSnackType] = useState('error');
-  const handleOpen = (snackMess, snackType) => {
-    setSnackMess(snackMess);
-    setSnackType(snackType);
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const handleCreate = () => {
     if (values.password === '') {
       setErrors({
@@ -63,18 +50,6 @@ const WalletsCreate = (props) => {
 
   return (
     <>
-      <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        open={open}
-        autoHideDuration={6000}
-        onClose={handleClose}
-        key={'topcenter'}
-      >
-        <Alert onClose={handleClose} severity={snackType}>
-          {snackMess}
-        </Alert>
-      </Snackbar>
-
       <form>
         <Card>
           <CardHeader
