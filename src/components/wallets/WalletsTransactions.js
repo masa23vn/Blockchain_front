@@ -92,7 +92,7 @@ const LatestTransactions = (props) => {
   }
 
   return (
-    <Card {...props}>
+    <Card>
       <CardHeader title={
         <Box style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Typography><b>Wallet Transaction - Need login to use ({rows?.length})</b></Typography>

@@ -55,7 +55,9 @@ const BlockInfo = (props) => {
                   </TableRow>
                   <TableRow hover>
                     <TableCell style={{ width: '250px' }}> Created at: </TableCell>
-                    <TableCell> {block?.timestamp} </TableCell>
+                    <TableCell>
+                      {moment(block?.timestamp).format("DD/MM/yyyy hh:MM:ss")}
+                    </TableCell>
                   </TableRow>
                   <TableRow hover>
                     <TableCell style={{ width: '250px' }}> Difficulty: </TableCell>
@@ -71,7 +73,7 @@ const BlockInfo = (props) => {
                   </TableRow>
                   <TableRow hover>
                     <TableCell style={{ width: '250px' }}> Number of Transactions:</TableCell>
-                    <TableCell>{block?.data?.length > 0 ? block?.data?.length - 1 : 0} </TableCell>
+                    <TableCell>{block?.data?.length ? block?.data?.length : 0} </TableCell>
                   </TableRow>
                   <TableRow hover>
                     <TableCell style={{ width: '250px' }}> Transactions:</TableCell>

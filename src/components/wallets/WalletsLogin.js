@@ -148,6 +148,8 @@ const WalletsLogin = (props) => {
               onChange={handleChangeEncryphted}
               value={encryphted}
               variant="outlined"
+              error={errors.encryphted !== ''}
+              helperText={errors.encryphted}
             />
             <TextField
               fullWidth
@@ -158,6 +160,8 @@ const WalletsLogin = (props) => {
               onChange={handleChangePassword}
               value={password}
               variant="outlined"
+              error={errors.password !== ''}
+              helperText={errors.password}
             />
           </CardContent>
           <Divider />
