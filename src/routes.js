@@ -4,7 +4,6 @@ import NotFound from './pages/NotFound';
 import Block from './pages/Block';
 import Transaction from './pages/Transaction';
 import Wallets from './pages/Wallets';
-import Miner from './pages/Miner';
 
 const routes = [
   {
@@ -14,7 +13,6 @@ const routes = [
       { path: 'block/:id', element: <Block /> },
       { path: 'transaction/:id', element: <Transaction /> },
       { path: 'wallets', element: <Wallets /> },
-      { path: 'miner', element: <Miner /> },
       { path: '', element: <Dashboard /> },
       { path: '*', element: <NotFound /> }
     ]

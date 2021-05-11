@@ -28,11 +28,6 @@ const items = [
     icon: AccountBalanceWalletIcon,
     title: 'Wallets'
   },
-  {
-    href: '/miner',
-    icon: AccountBalanceWalletIcon,
-    title: 'Miner'
-  },
 ];
 
 const DashboardSidebar = ({ onMobileClose, openMobile }) => {

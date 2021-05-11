@@ -71,7 +71,7 @@ const BlockInfo = (props) => {
                   </TableRow>
                   <TableRow hover>
                     <TableCell style={{ width: '250px' }}> Number of Transactions:</TableCell>
-                    <TableCell> {block?.data?.length - 1} </TableCell>
+                    <TableCell>{block?.data?.length > 0 ? block?.data?.length - 1 : 0} </TableCell>
                   </TableRow>
                   <TableRow hover>
                     <TableCell style={{ width: '250px' }}> Transactions:</TableCell>

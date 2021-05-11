@@ -139,15 +139,13 @@ const LatestBlocks = (props) => {
                       <Link to={`/block/${block?.index}`}>{block?.index}</Link>
                     </TableCell>
                     <TableCell >
-                      {//moment(block?.createdAt).format('DD/MM/YYYY')
-                      }
-                      {block?.timestamp}
+                      {moment(block?.timestamp * 1000).format("DD/MM/yyyy hh:MM:ss")}
                     </TableCell>
                     <TableCell align="right">
                       {block?.difficulty}
                     </TableCell>
                     <TableCell align="right">
-                      {block?.data?.length - 1}
+                      {block?.data?.length > 0 ? block?.data?.length - 1 : 0}
                     </TableCell>
                   </TableRow>
                 )

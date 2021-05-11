@@ -71,7 +71,7 @@ const getPublicKey = (aPrivateKey) => {
         return EC.keyFromPrivate(aPrivateKey, 'hex').getPublic().encode('hex');
     }
     catch (error) {
-        throw Error("Wrong private key");
+        throw Error("Your login is not valid");
     }
 };
 
@@ -162,6 +162,20 @@ const toHexString = (byteArray) => {
     }).join('');
 };
 
+const generatePrivateKey = () => {
+    const keyPair = EC.genKeyPair();
+    const privateKey = keyPair.getPrivate();
+    return privateKey.toString(16);
+};
+const encryptPrivateKey = (passphase) => {
+    const privateKey = generatePrivateKey();
+    return CryptoJS.AES.encrypt(privateKey, passphase)
+}
+const decryptPrivateKey = (encrypted, passphase) => {
+    const privateKey = CryptoJS.AES.decrypt(encrypted, passphase).toString(CryptoJS.enc.Utf8);
+    return privateKey
+}
+
 export {
-    createTransaction,
+    createTransaction, encryptPrivateKey, decryptPrivateKey, getPublicKey
 };

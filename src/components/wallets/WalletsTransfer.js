@@ -10,19 +10,18 @@ import {
   Snackbar,
   Alert
 } from '@material-ui/core';
-import { createTransaction } from '../../helper/sign';
+import { createTransaction, decryptPrivateKey } from '../../helper/sign';
 import { LINK } from '../../constant/constant'
 import axios from 'axios';
 
 const WalletsTransfer = (props) => {
+  const { encryphted, password } = props
   const [values, setValues] = useState({
-    private: '',
-    address: '',
+    public: '',
     amount: ''
   });
   const [errors, setErrors] = useState({
-    private: '',
-    address: '',
+    public: '',
     amount: ''
   })
 
@@ -42,17 +41,10 @@ const WalletsTransfer = (props) => {
 
 
   const sendTransaction = () => {
-    if (values.private === '') {
+    if (values.public === '') {
       setErrors({
         ...errors,
-        private: "This field can't be blank."
-      })
-      return
-    }
-    if (values.address === '') {
-      setErrors({
-        ...errors,
-        address: "This field can't be blank."
+        public: "This field can't be blank."
       })
       return
     }
@@ -72,6 +64,7 @@ const WalletsTransfer = (props) => {
       return
     }
 
+    const privateKey = decryptPrivateKey(encryphted, password);
     // get unSpent
     axios.get(`${LINK.API}/unSpent`)
       .then(function (res) {
@@ -82,7 +75,7 @@ const WalletsTransfer = (props) => {
             const pool = res.data
             try {
               // create and sign transaction locally
-              const tx = createTransaction(values.address, Number(values.amount), values.private, unSpent, pool)
+              const tx = createTransaction(values.public, Number(values.amount), privateKey, unSpent, pool)
               console.log(tx)
               // send transaction to server
               axios.post(`${LINK.API}/sendTransactionGuess`, { transaction: tx })
@@ -90,7 +83,12 @@ const WalletsTransfer = (props) => {
                   handleOpen("Created transaction successfully. Now wait for someone to mine it", "success");
                 })
                 .catch(function (err) {
-                  handleOpen(err.message, "error");
+                  if (err?.response && err?.response?.data) {
+                    handleOpen(err?.response?.data, "error");
+                  }
+                  else {
+                    handleOpen(err.message, "error");
+                  }
                 })
             } catch (err) {
               handleOpen(err.message, "error");
@@ -138,31 +136,20 @@ const WalletsTransfer = (props) => {
         <Card>
           <CardHeader
             title="Create new transaction"
-            subheader="Your private key will be only on your browser and will be deleted when you close this tab or clear caches"
+            subheader="Send coin to another user through their public key"
           />
           <Divider />
           <CardContent>
             <TextField
               fullWidth
-              label="Private Key"
+              label="Public Key"
               margin="normal"
-              name="private"
+              name="public"
               onChange={handleChange}
-              value={values.private}
+              value={values.public}
               variant="outlined"
-              error={errors.private !== ''}
-              helperText={errors.private}
-            />
-            <TextField
-              fullWidth
-              label="Address"
-              margin="normal"
-              name="address"
-              onChange={handleChange}
-              value={values.address}
-              variant="outlined"
-              error={errors.address !== ''}
-              helperText={errors.address}
+              error={errors.public !== ''}
+              helperText={errors.public}
             />
             <TextField
               fullWidth
